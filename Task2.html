@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="de-DE">
+    <head>
+        <meta charset="UTF-8" />
+        <style>
+            * {
+                font: 14px normal Arial, sans-serif;
+                color: #000000;
+            }
+            table {
+                margin: 50px auto;
+            }
+            table, td {
+                border: 1px solid #aaa;
+                border-collapse: collapse;
+            }
+            th {
+                padding: 10px;
+                font-weight: bold;
+            }
+            td {
+                background-color: #eeeeee;
+                width: 80px;
+                height: 80px;
+            }
+            table tr td {
+                cursor: pointer;
+            }
+            div#Log {
+                position: absolute;
+                top: 50px;
+                left: 50%;
+                width: 120px;
+                height: 310px;
+                margin-left: 180px;
+                background-color: #eeeeee;
+                border: 1px solid #aaa;
+                padding: 10px;
+                overflow: auto;
+            }
+        </style>
+        <script>
+            let currentFillColor = ''; 
+            let changeCounter = 0;
+ 
+            // ECMA6 compliant, convert rgb to hex
+            const rgbToHex = (r, g, b) => '#' + [r, g, b].map(x => {
+                const hex = x.toString(16);
+                return hex.length === 1 ? '0' + hex : hex;
+            }).join('');
+
+            function setField(element) {
+                // element contains the current html element
+                let rgbVal = [0, 0, 0];
+                if(element.style.backgroundColor) {
+                    // convert rgb to hex
+                    rgbVal = element.style.backgroundColor.substring(4).slice(0, -1).split(', ');
+                    
+                }
+                // compare whether the selected color is the same as the field's color
+                if(rgbToHex(parseInt(rgbVal[0]), parseInt(rgbVal[1]), parseInt(rgbVal[2])) === currentFillColor)
+                    element.style.backgroundColor = '#eeeeee';
+                else element.style.backgroundColor = currentFillColor;
+                // add counter and make an alert if it is 10
+                changeCounter++;
+                if(changeCounter === 10){
+                    alert("You have clicked 10 times on the field!");
+                }
+            }
+
+            function setFillColor(color) {
+                // color should be a string
+                currentFillColor = color;
+                // get the 'Log' element
+                let log = document.getElementById('Log');
+                // create a <p> element, style it a bit
+                let p = document.createElement("p");
+                p.style.color = color;
+                p.style.margin = 0;
+                p.style.fontWeight = 'bold';
+                // append the <p> ele with the text
+                p.appendChild(document.createTextNode('Color changed!'));
+                // append the <div> with <p> ele
+                log.appendChild(p);
+            }
+        </script>
+    </head>
+    <body>
+        <div id="Log"></div>
+        <table>
+            <tbody>
+                <tr>
+                    <td onclick="setField(this)"></td>
+                    <td onclick="setField(this)"></td>
+                    <td onclick="setField(this)"></td>
+                    <td onclick="setField(this)"></td>
+                </tr>
+                <tr>
+                    <td onclick="setField(this)"></td>
+                    <td onclick="setField(this)"></td>
+                    <td onclick="setField(this)"></td>
+                    <td onclick="setField(this)"></td>
+                </tr>
+                <tr>
+                    <td onclick="setField(this)"></td>
+                    <td onclick="setField(this)"></td>
+                    <td onclick="setField(this)"></td>
+                    <td onclick="setField(this)"></td>
+                </tr>
+                <tr>
+                    <td onclick="setField(this)"></td>
+                    <td onclick="setField(this)"></td>
+                    <td onclick="setField(this)"></td>
+                    <td onclick="setField(this)"></td>
+                </tr>
+            </tbody>
+        </table>
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="4">Choose a color:</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td onclick="setFillColor('#CC3333')" style="background-color:#CC3333;"></td>
+                    <td onclick="setFillColor('#3399FF')" style="background-color:#3399FF;"></td>
+                    <td onclick="setFillColor('#339933')" style="background-color:#339933;"></td>
+                    <td onclick="setFillColor('#999933')" style="background-color:#999933;"></td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>
